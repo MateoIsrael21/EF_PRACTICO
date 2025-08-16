@@ -1,25 +1,19 @@
-FROM node:16-alpine
+|FROM python:3.9-slim
 
 # Establecer directorio de trabajo
 WORKDIR /app
 
 # Copiar archivos de dependencias
-COPY package*.json ./
+COPY requirements.txt .
 
 # Instalar dependencias
-RUN npm install
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copiar código de la aplicación
 COPY . .
 
-# Construir la aplicación
-RUN npm run build
-
-# Instalar servidor ligero para servir la aplicación
-RUN npm install -g serve
-
 # Exponer puerto
-EXPOSE 3000
+EXPOSE 5000
 
 # Comando para ejecutar la aplicación
-CMD ["serve", "-s", "build", "-l", "3000"]
+CMD ["python", "app.py"]
